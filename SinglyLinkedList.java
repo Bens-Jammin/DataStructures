@@ -58,7 +58,7 @@ public class SinglyLinkedList<T>{
     }
 
 
-    public Iterator<T> iterator() {
+    public Iterator<T> getIterator() {
         return new LinkedListIterator();
     }
 
@@ -82,5 +82,48 @@ public class SinglyLinkedList<T>{
         return size != 0;
     }
 
-    // need a get(), remove(), toString() methods I think
+    // TODO: optimize this ?
+    public T get(int index){
+        Iterator<T> iter = getIterator();
+        int count = 0;
+        while (count < index -1){
+            if(iter.hasNext()){
+                count++;
+                iter.next();
+            }else{
+                return null;
+            }
+        }
+        if(iter.hasNext()){
+            return iter.next();
+        }
+        return null;
+    }
+
+
+    public T remove(int index){
+        Node<T> current = head;
+        for (int i=0; i<index-1; i++){
+            if(current == null){
+                return null;
+            }
+            current = current.next;
+        }
+
+        T data = current.next.data;
+        current.next = current.next.next;
+        return data; 
+    }
+
+
+    public String toString(){
+        String LinkedListString = "";
+        Iterator<T> iter = getIterator();
+        while(iter.hasNext()){
+            LinkedListString += "("+iter.next()+") ->";
+        }
+        LinkedListString += "(null)";
+        
+        return LinkedListString;
+    }
 }
